@@ -1,0 +1,30 @@
+---
+scenario: Test scenario
+description: Scenario description, in which the scenario is described by words that describe it.
+seed: 123
+realtime: no
+factor:
+ticks:
+time_start: '2020-01-01 12:00:00'
+time_end: '2020-01-31 12:00:00'
+
+classes:
+  - name: Account
+    count: 40
+    attributes:
+      first_name: 'faker.first_name'
+      last_name: 'faker.last_name'
+      username: 'self.first_name'
+      phone: 'faker.phone_number'
+      uuid: 'faker.uuid4'
+      created: 'scenario.time_start'
+      changed: 'scenario.time_end'
+
+    schema:
+      id: '{uuid}'
+      username: '{username}'
+      full_name: '{first_name} {last_name}'
+      email: '{first_name}.{last_name}@gmail.com'
+      phone: '{phone}'
+      registered: '{created}'
+      last_logon: '{changed}'
