@@ -1,7 +1,7 @@
 ---
 scenario: Test scenario
 description: Scenario description, in which the scenario is described by words that describe it.
-seed: 123
+seed: 1
 realtime: no
 factor:
 ticks:
@@ -10,7 +10,7 @@ time_end: '2020-01-31 12:00:00'
 
 classes:
   - name: Account
-    count: 40
+    count: 10
     attributes:
       first_name: 'faker.first_name'
       last_name: 'faker.last_name'

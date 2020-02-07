@@ -19,6 +19,8 @@ $ pip install --user mikrokosmos
 Usage
 -----
 
+Generate static data from a scenario:
+
 ```bash
 $ mikro gen scenario.yml
 ```

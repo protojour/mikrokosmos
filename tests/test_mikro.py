@@ -29,9 +29,9 @@ def test_mikro_gen(runner):
 
         result = runner.invoke(mikro, ['gen', scenario_path])
         assert result.exit_code == 0
-        assert 'Brian Miller' in result.output
+        assert 'Dennis Boone' in result.output
 
-        result = runner.invoke(mikro, ['gen', '-i', '4', scenario_path])
+        result = runner.invoke(mikro, ['gen', '-n', '4', scenario_path])
         assert result.exit_code == 0
         assert '    ' in result.output
 
@@ -50,4 +50,4 @@ def test_mikro_run(runner):
 
         result = runner.invoke(mikro, ['run', scenario_path])
         assert result.exit_code == 0
-        assert 'Running scenario' in result.output
+        assert 'Not yet implemented' in result.output

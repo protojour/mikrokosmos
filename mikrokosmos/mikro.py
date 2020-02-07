@@ -30,7 +30,7 @@ def mikro():
     'scenario', type=click.File('r')
 )
 @click.option(
-    '-i', '--indent',
+    '-n', '--indent',
     default=0, show_default=True,
     help='JSON output indentation'
 )
@@ -39,6 +39,7 @@ def gen(scenario, indent):
     Generate static data from a scenario.
 
     Generates objects defined in the scenario's classes.
+    Output is written to stdout.
     """
 
     scenario_dict = yaml.safe_load(scenario)
@@ -93,7 +94,6 @@ def gen(scenario, indent):
 
         for i in range(count):
             obj = Class()
-            print(obj)
             objects.append(recursive_resolve(schema, obj))
 
     output = json.dumps(objects, indent=indent)
