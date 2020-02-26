@@ -41,7 +41,7 @@ Planned functionality
 - [ ] Environment state, per-object state, resources
 - [ ] State machines for processes?
 - [ ] Activity and events simulated over time
-- [ ] Realtime simuations
+- [ ] Realtime simulations
 
 License
 -------

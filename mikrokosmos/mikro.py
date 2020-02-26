@@ -6,6 +6,7 @@ See LICENSE.txt for details.
 """
 
 import json
+import random
 import time
 
 import attr
@@ -14,7 +15,7 @@ import pendulum
 import yaml
 from faker import Faker
 
-from .utils import recursive_resolve
+from .objects import resolve_attributes, recursive_resolve
 
 
 @click.group()
@@ -46,45 +47,35 @@ def gen(scenario, indent):
     scenario_name = scenario_dict.get('name')
 
     seed = scenario_dict.get('seed', time.time())
-    Faker.seed(seed)
-
     locale = scenario_dict.get('locale', 'en_IE')
+
+    random.seed(seed)
+    Faker.seed(seed)
     fake = Faker(locale)
 
     time_start = pendulum.parse(scenario_dict.get('time_start'))
     time_end = pendulum.parse(scenario_dict.get('time_end'))
-    scenario_dict[time_start] = time_start
-    scenario_dict[time_end] = time_end
+    scenario_dict['time_start'] = time_start
+    scenario_dict['time_end'] = time_end
 
     objects = []
     for cls in scenario_dict['classes']:
+
+        print(cls)
 
         name = cls['name']
         count = cls['count']
         schema = cls['schema']
 
-        attributes = {}
-        for key, values in cls['attributes'].items():
+        @attr.s
+        class Context:
+            faker = attr.ib()
+            scenario = attr.ib()
 
-            if isinstance(values, list):
-                value, *args = values
-            else:
-                value, args = values, []
+        ctx = Context(fake, scenario_dict)
 
-            factory = lambda v=value: v
-
-            if value and 'self.' in value:
-                _, _attr = value.split('.', 1)
-                factory = lambda self, attr=_attr: getattr(self, attr)
-
-            elif value and 'scenario.' in value:
-                _, _attr = value.split('.', 1)
-                factory = lambda self, scenario_dict=scenario_dict, key=_attr: scenario_dict[key]
-
-            elif value and 'faker.' in value:
-                _, provider = value.split('.', 1)
-                factory = lambda self, provider=provider, args=args: fake.format(provider, *args)
-
+        attributes = resolve_attributes(cls['attributes'], ctx)
+        for key, factory in attributes.items():
             attributes[key] = attr.ib(default=attr.Factory(factory, takes_self=True))
 
         Class = attr.make_class(

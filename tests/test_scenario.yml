@@ -1,7 +1,7 @@
 ---
-scenario: Test scenario
+name: Test scenario
 description: Scenario description, in which the scenario is described by words that describe it.
-seed: 1
+seed: 123
 realtime: no
 factor:
 ticks:
@@ -9,22 +9,50 @@ time_start: '2020-01-01 12:00:00'
 time_end: '2020-01-31 12:00:00'
 
 classes:
-  - name: Account
+  - name: Profile
     count: 10
     attributes:
-      first_name: 'faker.first_name'
-      last_name: 'faker.last_name'
-      username: 'self.first_name'
-      phone: 'faker.phone_number'
-      uuid: 'faker.uuid4'
-      created: 'scenario.time_start'
-      changed: 'scenario.time_end'
-
+      # strings, numbers etc. are set statically
+      usertype: 1
+      # attributes may use a special reference to Faker for randomly generated data
+      # these are replaced with a factory for the given provider
+      uuid: faker.uuid4
+      first_name: faker.first_name
+      last_name: faker.last_name
+      phone: faker.phone_number
+      # attributes may refer to other attributes
+      username: self.first_name
+      # attributes may refer to the scenario
+      someattr: scenario.name
+      # attributes may use random choice
+      group:
+        choice:
+          - admin
+          - moderator
+          - user
+      # calling functions like Faker providers with parameters can be done by supplying a list
+      # (inline if you prefer), and references may be used here as well.
+      # Functions like these will run before an object is instanced, so self references are not available.
+      created:
+        - faker.date_time_between_dates
+        - scenario.time_start
+        - scenario.time_end
+      # ...or (perhaps more readable), with kwargs in dictionary form
+      changed:
+        faker:
+          provider: date_time_between_dates
+          datetime_start: scenario.time_start
+          datetime_end: scenario.time_end
     schema:
+      # output schemas use Python string formatting syntax
+      # only the generated object's attributes are available
+      # remember to use quoted strings here
       id: '{uuid}'
+      group: '{group}'
+      usertype: '{usertype}'
       username: '{username}'
       full_name: '{first_name} {last_name}'
-      email: '{first_name}.{last_name}@gmail.com'
+      email: '{first_name}.{last_name}@example.com'
       phone: '{phone}'
       registered: '{created}'
       last_logon: '{changed}'

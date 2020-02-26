@@ -7,7 +7,7 @@ from mikrokosmos import mikro, __version__
 
 
 def test_version():
-    assert __version__ == '0.1.0'
+    assert __version__ == '0.1.1'
 
 
 def test_mikro(runner):
@@ -29,7 +29,7 @@ def test_mikro_gen(runner):
 
         result = runner.invoke(mikro, ['gen', scenario_path])
         assert result.exit_code == 0
-        assert 'Dennis Boone' in result.output
+        assert 'Jermaine Patel' in result.output
 
         result = runner.invoke(mikro, ['gen', '-n', '4', scenario_path])
         assert result.exit_code == 0
