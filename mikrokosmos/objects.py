@@ -65,6 +65,8 @@ def resolve_attributes(attributes, ctx):
                 kwargs = rest
             elif isinstance(rest, list):
                 args = rest
+            else:
+                args = [rest]
         if isinstance(value, list):
             value, *args = value
 

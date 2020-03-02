@@ -94,7 +94,7 @@ def test_resolve_attributes():
         }
         resolved = resolve_attributes(attributes, ctx)
         assert resolved['attribute'](self) == 'resolved value'
-        resolve.assert_called_with('to_resolve', [], {}, ctx)
+        resolve.assert_called_with('to_resolve', ['resolved value'], {}, ctx)
 
         attributes = {
             'attribute': {

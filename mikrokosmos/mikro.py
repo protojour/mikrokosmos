@@ -11,7 +11,6 @@ import time
 
 import attr
 import click
-import pendulum
 import yaml
 from faker import Faker
 
@@ -53,15 +52,8 @@ def gen(scenario, indent):
     Faker.seed(seed)
     fake = Faker(locale)
 
-    time_start = pendulum.parse(scenario_dict.get('time_start'))
-    time_end = pendulum.parse(scenario_dict.get('time_end'))
-    scenario_dict['time_start'] = time_start
-    scenario_dict['time_end'] = time_end
-
     objects = []
     for cls in scenario_dict['classes']:
-
-        print(cls)
 
         name = cls['name']
         count = cls['count']

@@ -5,8 +5,8 @@ seed: 123
 realtime: no
 factor:
 ticks:
-time_start: '2020-01-01 12:00:00'
-time_end: '2020-01-31 12:00:00'
+time_start: 2020-01-01 12:00:00 Z
+time_end: 2020-01-31 12:00:00 Z
 
 classes:
   - name: Profile
@@ -44,9 +44,9 @@ classes:
           datetime_start: scenario.time_start
           datetime_end: scenario.time_end
     schema:
-      # output schemas use Python string formatting syntax
+      # output schemas use Python (new style) string formatting syntax
       # only the generated object's attributes are available
-      # remember to use quoted strings here
+      # remember to use quoted strings here, braces are read as maps in YAML
       id: '{uuid}'
       group: '{group}'
       usertype: '{usertype}'
@@ -54,5 +54,5 @@ classes:
       full_name: '{first_name} {last_name}'
       email: '{first_name}.{last_name}@example.com'
       phone: '{phone}'
-      registered: '{created}'
-      last_logon: '{changed}'
+      registered: '{created:%Y-%m-%dT%H:%MZ}'
+      last_logon: '{changed:%Y-%m-%dT%H:%MZ}'
