@@ -13,13 +13,17 @@ def test_recursive_resolve():
             'test': '{a}',
         },
         'b': ['value', '{b}'],
-        'c': '{c}',
-        'd': 'test'
+        'c': 'self.c',
+        'd': 'self.d',
+        'e': 'self.e',
+        'f': 'test'
     }
     obj = MagicMock()
     obj.a = 'a'
     obj.b = 'b'
-    obj.c = 'c'
+    obj.c = 123
+    obj.d = [1, 2, 3]
+    obj.e = None
 
     assert recursive_resolve({}, obj) == {}
     assert recursive_resolve([], obj) == []
@@ -33,8 +37,10 @@ def test_recursive_resolve():
             'test': 'a',
         },
         'b': ['value', 'b'],
-        'c': 'c',
-        'd': 'test'
+        'c': 123,
+        'd': [1, 2, 3],
+        'e': None,
+        'f': 'test'
     }
 
 

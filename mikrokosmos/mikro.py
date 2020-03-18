@@ -46,7 +46,7 @@ def gen(scenario, indent):
     scenario_name = scenario_dict.get('name')
 
     seed = scenario_dict.get('seed', time.time())
-    locale = scenario_dict.get('locale', 'en_IE')
+    locale = scenario_dict.get('locale', 'en_US')
 
     random.seed(seed)
     Faker.seed(seed)

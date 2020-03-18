@@ -13,7 +13,11 @@ def recursive_resolve(data, obj):
     elif isinstance(data, list):
         return [recursive_resolve(i, obj) for i in data]
     elif isinstance(data, str):
-        return data.format(**vars(obj))
+        if 'self.' in data:
+            _, att = data.split('.', 1)
+            return getattr(obj, att)
+        else:
+            return data.format(**vars(obj))
     else:
         return data
 

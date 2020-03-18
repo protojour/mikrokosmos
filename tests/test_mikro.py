@@ -7,7 +7,7 @@ from mikrokosmos import mikro, __version__
 
 
 def test_version():
-    assert __version__ == '0.1.2'
+    assert __version__ == '0.1.3'
 
 
 def test_mikro(runner):

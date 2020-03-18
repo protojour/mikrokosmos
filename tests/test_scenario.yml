@@ -2,11 +2,12 @@
 name: Test scenario
 description: Scenario description, in which the scenario is described by words that describe it.
 seed: 123
+locale:
 realtime: no
 factor:
 ticks:
-time_start: 2020-01-01 12:00:00 Z
-time_end: 2020-01-31 12:00:00 Z
+time_start: 2020-01-01 12:00:00
+time_end: 2020-01-31 12:00:00
 
 classes:
   - name: Profile
@@ -44,15 +45,16 @@ classes:
           datetime_start: scenario.time_start
           datetime_end: scenario.time_end
     schema:
-      # output schemas use Python (new style) string formatting syntax
-      # only the generated object's attributes are available
+      # output schemas
+      # you may use references to self (for direct output) or Python (new style) string formatting syntax
+      # only the generated object's attributes are available for direct output and string formatting
       # remember to use quoted strings here, braces are read as maps in YAML
       id: '{uuid}'
       group: '{group}'
-      usertype: '{usertype}'
+      usertype: self.usertype  # for direct output of non-string values, use self references
       username: '{username}'
       full_name: '{first_name} {last_name}'
       email: '{first_name}.{last_name}@example.com'
       phone: '{phone}'
-      registered: '{created:%Y-%m-%dT%H:%MZ}'
-      last_logon: '{changed:%Y-%m-%dT%H:%MZ}'
+      registered: '{created:%Y-%m-%dT%H:%M.%f%Z}'
+      last_logon: '{changed:%Y-%m-%dT%H:%M.%f%Z}'
