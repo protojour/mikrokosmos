@@ -6,15 +6,11 @@ See LICENSE.txt for details.
 """
 
 import json
-import random
-import time
 
-import attr
 import click
 import yaml
-from faker import Faker
 
-from .objects import resolve_attributes, recursive_resolve
+from .objects import resolve_objects
 
 
 @click.group()
@@ -38,47 +34,13 @@ def gen(scenario, indent):
     """
     Generate static data from a scenario.
 
-    Generates objects defined in the scenario's classes.
+    Generates objects defined in the scenario's list of objects.
     Output is written to stdout.
     """
 
     scenario_dict = yaml.safe_load(scenario)
-    scenario_name = scenario_dict.get('name')
 
-    seed = scenario_dict.get('seed', time.time())
-    locale = scenario_dict.get('locale', 'en_US')
-
-    random.seed(seed)
-    Faker.seed(seed)
-    fake = Faker(locale)
-
-    objects = []
-    for cls in scenario_dict['classes']:
-
-        name = cls['name']
-        count = cls['count']
-        schema = cls['schema']
-
-        @attr.s
-        class Context:
-            faker = attr.ib()
-            scenario = attr.ib()
-
-        ctx = Context(fake, scenario_dict)
-
-        attributes = resolve_attributes(cls['attributes'], ctx)
-        for key, factory in attributes.items():
-            attributes[key] = attr.ib(default=attr.Factory(factory, takes_self=True))
-
-        Class = attr.make_class(
-            name=name,
-            attrs=attributes
-        )
-
-        for i in range(count):
-            obj = Class()
-            objects.append(recursive_resolve(schema, obj))
-
+    objects = resolve_objects(scenario_dict)
     output = json.dumps(objects, indent=indent)
     click.echo(output)
 

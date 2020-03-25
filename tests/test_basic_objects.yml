@@ -1,6 +1,6 @@
 ---
-name: Test scenario
-description: Scenario description, in which the scenario is described by words that describe it.
+name: Basic objects test
+description: Illustrates basic structure of object attributes and output
 seed: 123
 locale:
 realtime: no
@@ -9,22 +9,28 @@ ticks:
 time_start: 2020-01-01 12:00:00
 time_end: 2020-01-31 12:00:00
 
-classes:
+objects:
+
   - name: Profile
     count: 10
+
     attributes:
-      # strings, numbers etc. are set statically
+      # basic types are set exactly as-is
       usertype: 1
-      # attributes may use a special reference to Faker for randomly generated data
-      # these are replaced with a factory for the given provider
+      type: profile
+      list: [1, 2, 3]
+      dict:
+        key: value
+      # attributes may use a special "faker" reference to Faker for randomly generated data
+      # these are replaced with a value from the given provider
       uuid: faker.uuid4
       first_name: faker.first_name
       last_name: faker.last_name
       phone: faker.phone_number
-      # attributes may refer to other attributes
+      # attributes may refer to other attributes through "self"
       username: self.first_name
-      # attributes may refer to the scenario
-      someattr: scenario.name
+      # attributes may refer to the "scenario"
+      testcase: scenario.name
       # attributes may use random choice
       group:
         choice:
@@ -32,8 +38,8 @@ classes:
           - moderator
           - user
       # calling functions like Faker providers with parameters can be done by supplying a list
-      # (inline if you prefer), and references may be used here as well.
-      # Functions like these will run before an object is instanced, so self references are not available.
+      # of arguments, and references may be used here as well
+      # functions like these will run before an object is instanced, so self references are not available
       created:
         - faker.date_time_between_dates
         - scenario.time_start
@@ -44,16 +50,17 @@ classes:
           provider: date_time_between_dates
           datetime_start: scenario.time_start
           datetime_end: scenario.time_end
-    schema:
-      # output schemas
-      # you may use references to self (for direct output) or Python (new style) string formatting syntax
+
+    output:
+      # output schema
+      # you may use references to self (for direct output) or Python ("new style") string formatting syntax
       # only the generated object's attributes are available for direct output and string formatting
       # remember to use quoted strings here, braces are read as maps in YAML
-      id: '{uuid}'
-      group: '{group}'
+      id: self.uuid
+      group: self.group
       usertype: self.usertype  # for direct output of non-string values, use self references
-      username: '{username}'
-      full_name: '{first_name} {last_name}'
+      username: self.username
+      full_name: '{first_name} {last_name}'  # for more complex string outputs, use quotes strings and braces
       email: '{first_name}.{last_name}@example.com'
       phone: '{phone}'
       registered: '{created:%Y-%m-%dT%H:%M.%f%Z}'

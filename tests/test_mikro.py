@@ -7,7 +7,7 @@ from mikrokosmos import mikro, __version__
 
 
 def test_version():
-    assert __version__ == '0.1.3'
+    assert __version__ == '0.2.0'
 
 
 def test_mikro(runner):
@@ -16,7 +16,7 @@ def test_mikro(runner):
 
 
 def test_mikro_gen(runner):
-    scenario_path = str(Path('tests/test_scenario.yml').resolve())
+    scenario_path = str(Path('tests/test_basic_objects.yml').resolve())
     with runner.isolated_filesystem():
 
         result = runner.invoke(mikro, ['gen'])
@@ -37,7 +37,7 @@ def test_mikro_gen(runner):
 
 
 def test_mikro_run(runner):
-    scenario_path = str(Path('tests/test_scenario.yml').resolve())
+    scenario_path = str(Path('tests/test_basic_objects.yml').resolve())
     with runner.isolated_filesystem():
 
         result = runner.invoke(mikro, ['run'])

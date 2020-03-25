@@ -1,0 +1,73 @@
+---
+name: Basic trigger and response
+description: Scenario description, in which the scenario is described by words that describe it.
+seed: 123
+locale:
+realtime: no
+factor:
+ticks:
+time_start: 2020-01-01 12:00:00
+time_end: 2020-03-21 12:00:00
+
+objects:
+
+  - name: TriggerObject
+    count: 10
+
+    attributes:
+      info: [faker.text, 50]
+      type:
+        choice: [a, b, c]
+      number:
+        choice: [10, 20, 30]
+
+    # notice that output is not mandatory
+    # trigger objects can be referenced by response objects, so we will defer output
+
+  - name: SingleTrigger
+    # notice that count is not mandatory
+    # as an alternative, we can define a trigger,
+    # which generates an object when another meets its criteria
+    # all triggers follow the same pattern:
+    #
+    # TriggerClass.field_name operator value
+    #
+    # the following operators are available for op:
+    # in, <, <=, ==, !=, >=, >
+    #
+    # value is parsed with ast.literal_eval, and can be any Python value
+    trigger: TriggerObject.type == 'a'
+
+    attributes:
+      info: [faker.text, 100]
+
+    output:
+      info: self.info
+      origin:
+        # we can use a "trigger" reference to access the trigger
+        info: trigger.info
+        type: trigger.type
+        number: trigger.number
+
+  - name: MultiTrigger
+    # we can define a list of triggers,
+    # by default they are combined with OR
+    triggers:
+      - TriggerObject.type != 'a'
+      - TriggerObject.number < 15
+
+    attributes:
+      info: [faker.text, 100]
+
+    output:
+      info: self.info
+      origins:
+        # "triggers", here, is removed and resolved to a list of triggers
+        # in other words "origins" will be a list of dicts, one for each trigger,
+        # with the schema given below "triggers"
+        triggers:
+          info: trigger.info
+          type: trigger.type
+          number: trigger.number
+
+  # TODO: - name: MultiTriggerAND

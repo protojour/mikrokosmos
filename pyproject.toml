@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mikrokosmos"
-version = "0.1.3"
+version = "0.2.0"
 description = "A (test) data generator and scenario simulation framework"
 authors = ["Eirik Krogstad <eirikkr@gmail.com>"]
 license = "MIT"
