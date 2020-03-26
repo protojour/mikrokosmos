@@ -200,15 +200,20 @@ def resolve_objects(scenario):
 
         output = cls.get('output')
 
-        # TODO: triggers AND
-        for trigger_obj in trigger_objs:
-
+        def gen_obj_output(trigger_obj):
             obj = Class()
             triggered_objects.append(obj)
 
             if output:
                 resolved_output = recursive_resolve(output, obj, trigger_obj, trigger_objs)
                 outputs.append(resolved_output)
+
+        # TODO: This is crazy wrong, but will do for now
+        if len(triggers) > 1:
+            gen_obj_output(trigger_objs[0])
+        else:
+            for trigger_obj in trigger_objs:
+                gen_obj_output(trigger_obj)
 
     return outputs
 

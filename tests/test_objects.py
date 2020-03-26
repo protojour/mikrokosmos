@@ -161,12 +161,36 @@ def test_resolve_attributes():
 
 def test_resolve_trigger():
 
-    pass # in flux
+    trigger = 'Test.field == "value"'
+    cls, field, func, value = resolve_trigger(trigger)
+    assert cls == 'Test'
+    assert field == 'field'
+    assert func.__name__ == 'eq'
+    assert func.__module__ == '_operator'
+    assert func('test', 'test')
+    assert not func('test', 'other')
+    assert value == 'value'
+
+    trigger = 'Test.field is "value"'
+    with pytest.raises(ValueError):
+        cls, field, func, value = resolve_trigger(trigger)
 
 
 def test_resolve_class():
 
-    pass # in flux
+    cls = {
+        'name': 'TestClass',
+        'attributes': {
+            'key': 'value'
+        }
+    }
+
+    Class = resolve_class(cls, None)
+    assert Class.__name__ == 'TestClass'
+
+    obj = Class()
+    assert obj.__class__.__name__ == 'TestClass'
+    assert obj.key == 'value'
 
 
 def test_resolve_objects():
