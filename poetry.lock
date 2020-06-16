@@ -79,6 +79,17 @@ python-dateutil = ">=2.4"
 text-unidecode = "1.3"
 
 [[package]]
+category = "main"
+description = "Provider for Faker which adds fake microservice names."
+name = "faker-microservice"
+optional = false
+python-versions = "*"
+version = "2.0.0"
+
+[package.dependencies]
+faker = "*"
+
+[[package]]
 category = "dev"
 description = "Read metadata from Python packages"
 marker = "python_version < \"3.8\""
@@ -333,8 +344,8 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools"]
 
 [metadata]
-content-hash = "3580063a92dcce15e8e021539d834d88b8a52ecf787a3ae65cb948353670bf16"
-python-versions = "^3.7"
+content-hash = "3648cc52ccc762fdfb9b13947460f778bd803954394b63f245dcf291b31ce432"
+python-versions = "^3.6"
 
 [metadata.files]
 astroid = [
@@ -393,6 +404,9 @@ coverage = [
 faker = [
     {file = "Faker-4.0.0-py3-none-any.whl", hash = "sha256:047d4d1791bfb3756264da670d99df13d799bb36e7d88774b1585a82d05dbaec"},
     {file = "Faker-4.0.0.tar.gz", hash = "sha256:1b1a58961683b30c574520d0c739c4443e0ef6a185c04382e8cc888273dbebed"},
+]
+faker-microservice = [
+    {file = "faker-microservice-2.0.0.tar.gz", hash = "sha256:8cd5cbce5b08f2b33ddc7ad55f048353c87134fd36f50929000b27210c1a7c63"},
 ]
 importlib-metadata = [
     {file = "importlib_metadata-1.5.0-py2.py3-none-any.whl", hash = "sha256:b97607a1a18a5100839aec1dc26a1ea17ee0d93b20b0f008d80a5a050afb200b"},

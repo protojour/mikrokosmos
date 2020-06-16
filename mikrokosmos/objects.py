@@ -7,6 +7,7 @@ import time
 
 import attr
 from faker import Faker
+import faker_microservice
 
 
 def recursive_resolve(data, obj, trigger=None, triggers=[]):
@@ -226,4 +227,6 @@ def set_seed(scenario):
 
 def init_faker(scenario):
     locale = scenario.get('locale', 'en_US')
-    return Faker(locale)
+    fake = Faker(locale)
+    fake.add_provider(faker_microservice.Provider)
+    return fake

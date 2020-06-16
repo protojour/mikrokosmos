@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mikrokosmos"
-version = "0.2.1"
+version = "0.2.2"
 description = "A (test) data generator and scenario simulation framework"
 authors = ["Eirik Krogstad <eirikkr@gmail.com>"]
 license = "MIT"
@@ -15,6 +15,7 @@ faker = "^4.0.0"
 pendulum = "^2.0.5"
 pyyaml = "^5.3"
 simpy = "^3.0.11"
+faker-microservice = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"
